@@ -1,0 +1,15 @@
+---
+- name: edit and backup visudo file
+  hosts: all
+  become: yes
+  tasks:
+
+  - name: Backup sudoersfile
+    command: cp /etc/sudoers /etc/sudoers.bak
+    changed_when: false
+
+  - name: Add line in sudoersfile
+    lineinfile:
+      path: /etc/sudoers
+      line: "{{ ansible_user }} ALL=(ALL:ALL) NOPASSWD:ALL"
+      insertafter: "%sudo   ALL=(ALL:ALL) ALL "
